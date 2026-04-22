@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact &mdash; Stokba</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav><a href="/">&larr; Retour</a></nav>
+
+<h1>Nous contacter</h1>
+<p class="date">Une question, un bug, une suggestion ? Envoyez-nous un message.</p>
+
+<form id="contact-form" class="contact-form" novalidate>
+  <label>
+    <span>Nom</span>
+    <input type="text" name="name" maxlength="200" required autocomplete="name">
+  </label>
+  <label>
+    <span>Email</span>
+    <input type="email" name="email" maxlength="200" required autocomplete="email">
+  </label>
+  <label>
+    <span>Sujet</span>
+    <input type="text" name="subject" maxlength="200">
+  </label>
+  <label>
+    <span>Message</span>
+    <textarea name="message" rows="6" maxlength="5000" required></textarea>
+  </label>
+  <label class="hp" aria-hidden="true">
+    <span>Ne pas remplir</span>
+    <input type="text" name="website" tabindex="-1" autocomplete="off">
+  </label>
+  <button type="submit">Envoyer</button>
+  <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+</form>
+
+<div class="footer">
+  <p>Ou par email&nbsp;: <a href="mailto:contact@stokba.fr">contact@stokba.fr</a></p>
+</div>
+
+<script>
+(function () {
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  const button = form.querySelector('button[type="submit"]');
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    status.textContent = '';
+    status.className = 'form-status';
+
+    const data = Object.fromEntries(new FormData(form).entries());
+    button.disabled = true;
+    button.textContent = 'Envoi...';
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const json = await res.json().catch(() => ({}));
+      if (res.ok && json.ok) {
+        status.textContent = 'Message envoyé. Merci !';
+        status.classList.add('ok');
+        form.reset();
+      } else {
+        status.textContent = json.error || "Erreur d'envoi, merci de réessayer.";
+        status.classList.add('err');
+      }
+    } catch (_) {
+      status.textContent = "Erreur réseau, merci de réessayer.";
+      status.classList.add('err');
+    } finally {
+      button.disabled = false;
+      button.textContent = 'Envoyer';
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

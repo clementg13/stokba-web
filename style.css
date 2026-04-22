@@ -19,3 +19,15 @@ nav a { font-size: 14px; color: #6B8048; }
 .links a:hover { background: #F5F5F4; text-decoration: none; }
 .links .arrow { float: right; color: #A8A29E; }
 .footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid #E7E5E4; font-size: 13px; color: #A8A29E; text-align: center; }
+.contact-form { display: flex; flex-direction: column; gap: 14px; margin-top: 20px; }
+.contact-form label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #44403C; }
+.contact-form input, .contact-form textarea { font: inherit; color: #1C1917; background: #fff; border: 1px solid #E7E5E4; border-radius: 10px; padding: 10px 12px; width: 100%; transition: border-color 0.15s; }
+.contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: #6B8048; }
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.contact-form button { align-self: flex-start; background: #6B8048; color: #fff; border: 0; border-radius: 10px; padding: 12px 20px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.contact-form button:hover { background: #5a6c3c; }
+.contact-form button:disabled { opacity: 0.6; cursor: not-allowed; }
+.contact-form .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form-status { font-size: 14px; margin: 4px 0 0; min-height: 1em; }
+.form-status.ok { color: #6B8048; }
+.form-status.err { color: #B4533C; }
